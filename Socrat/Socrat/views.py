@@ -1,21 +1,21 @@
 from .models import Word, Book
 from django.conf import settings
-
-from aiogram import Bot, types
-from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
+from .create_bot import dp
+from .handlers import client
+
+async def on_startup(_):
+    print('starting bot')
 
 
-import os
+client.register_handlers_client(dp)
+# other.register_handlers_other(dp)
 
+executor.start_polling(dp, skip_updates=True, on_startup=on_startup)
 
-bot = Bot(token=settings.TELEGRAM_API_TOKEN)
-dp = Dispatcher(bot)
-
-
-@dp.message_handler(commands=['start'])
-async def echo_send(message: types.Message):
-    txt = 'Это авторский бот Сократ, который помогает при изучении иностранных языков.'
-    await message.reply(message.text)
-
-executor.start_polling(dp, skip_updates=True)
+#
+# @dp.message_handler()
+# async def echo_send(message: types.Message):
+#     await message.answer(message.text)
+#     # await message.reply(message.text) # ответ на сообщение
+#     # await bot.send_message(message.from_user.id, message.text) #сообщение в личку
