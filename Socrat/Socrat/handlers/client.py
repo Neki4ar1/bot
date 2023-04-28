@@ -1,10 +1,12 @@
 from aiogram import types, Dispatcher
-# from create_bot import dp
+from ..create_bot import dp, bot
+from ..keyboards_tg.client_keyboard import kb_client
 
 
 # @dp.message_handler(commands=['start', 'help'])
 async def command_start(message: types.Message):
-    await message.answer('Это авторский бот Сократ, который помогает при изучении иностранных языков.')
+    txt = 'Это авторский бот Сократ, который помогает при изучении иностранных языков.'
+    await bot.send_message(message.from_user.id, txt, reply_markup=kb_client)
 
 
 # @dp.message_handler(commands=['test1'])

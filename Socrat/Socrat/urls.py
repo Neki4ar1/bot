@@ -20,5 +20,5 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('bot_start', views.echo_send),
+    path('bot_start', views.on_startup),
 ]
