@@ -47,7 +47,7 @@ async def add_translation(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         await create_word(data['word'], data['translate'])
         await message.answer(text='Translation added!')
-
+    await state.finish()
 
 def register_add_word(dp: Dispatcher):
     dp.register_message_handler(add_start, commands=['add_word'], state=None)
