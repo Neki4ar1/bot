@@ -14,13 +14,13 @@ class Book(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'book'
+        db_table = 'Book'
 
 
 class Word(models.Model):
     word = models.TextField(blank=True, null=True)
-    translation = models.TextField(blank=True, null=True)
+    translate = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'word'
+        db_table = 'Word'

@@ -4,11 +4,17 @@ from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher import Dispatcher
 from aiogram import types
 from ..models import Word
+from asgiref.sync import sync_to_async
+
+
+@sync_to_async
+def create_word(word, translate):
+    Word.objects.create(word=word, translate=translate)
 
 
 class FSMword(StatesGroup):
     word = State()
-    translation = State()
+    translate = State()
 
 
 # @dp.message_handler(commands='add new word', state=None)
@@ -36,13 +42,11 @@ async def add_word(message: types.Message, state: FSMword):
 # @dp.message_handler(state=FSMword.translation)
 async def add_translation(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['translation'] = message.text
+        data['translate'] = message.text
 
     async with state.proxy() as data:
-        to_add = Word(word=str(data['word']), translation=str(data['translation']))
-        to_add.save()
-
-    await state.finish()
+        await create_word(data['word'], data['translate'])
+        await message.answer(text='Translation added!')
 
 
 def register_add_word(dp: Dispatcher):
@@ -50,4 +54,4 @@ def register_add_word(dp: Dispatcher):
     dp.register_message_handler(cancel_add, state='*', commands='cancel')
     dp.register_message_handler(cancel_add, Text(equals='cancel', ignore_case=True), state="*")
     dp.register_message_handler(add_word, state=FSMword.word)
-    dp.register_message_handler(add_translation, state=FSMword.translation)
+    dp.register_message_handler(add_translation, state=FSMword.translate)

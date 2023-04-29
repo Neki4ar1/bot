@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'Socrat.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'users_info.db',
+        'NAME': BASE_DIR / 'Info.db',
     }
 }
 
