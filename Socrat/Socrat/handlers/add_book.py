@@ -9,6 +9,7 @@ from aiogram.dispatcher import Dispatcher
 from aiogram import types
 from ..models import Book
 from asgiref.sync import sync_to_async
+TO_CANCEL = 'добавить_книгу добавить_слово все_слова все_книги /контактные_данные /местоположение'
 
 
 @sync_to_async
@@ -40,6 +41,10 @@ async def cancel_add_book(message: types.Message, state: FSMbook) -> None:
 
 async def add_book_name(message: types.Message, state: FSMbook) -> None:
     """Функция для добавления имени новой книги"""
+    if message.text in TO_CANCEL:
+        await message.reply('Ошибка. Вы отправили новую команду.')
+        await cancel_add_book(message, state)
+        return
     async with state.proxy() as data:
         data['name'] = message.text
 

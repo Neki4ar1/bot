@@ -29,7 +29,6 @@ async def command_start(message: types.Message) -> None:
     await bot.send_message(message.from_user.id, info, reply_markup=kb_client, parse_mode='HTML')
 
 
-
 def register_handlers_client(dp: Dispatcher) -> None:
     """
     Registers the command_start function as the handler for the /start and /help commands.

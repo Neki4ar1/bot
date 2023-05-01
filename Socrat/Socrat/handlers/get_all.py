@@ -4,6 +4,7 @@ send_words and send_books,
 and registers them as message handlers
 with the aiogram library's Dispatcher.
 """
+from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher import Dispatcher
 from aiogram import types
 from ..models import Word, Book
@@ -77,4 +78,6 @@ def register_get_all(dp: Dispatcher) -> None:
         dp: The Dispatcher to which the handlers will be added.
     """
     dp.register_message_handler(send_words, commands=['все_слова'], state=None)
+    dp.register_message_handler(send_words, Text(equals='все_слова', ignore_case=True), state="*")
     dp.register_message_handler(send_books, commands=['все_книги'], state=None)
+    dp.register_message_handler(send_books, Text(equals='все_книги', ignore_case=True), state="*")

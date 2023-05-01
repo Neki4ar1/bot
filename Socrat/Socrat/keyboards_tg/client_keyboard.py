@@ -2,10 +2,10 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 # Define the russian names for each command
-add_word_ru = '/добавить_слово'
-add_book_ru = '/добавить_книгу'
-send_words_ru = '/все_слова'
-send_books_ru = '/все_книги'
+add_word_ru = 'добавить_слово'
+add_book_ru = 'добавить_книгу'
+send_words_ru = 'все_слова'
+send_books_ru = 'все_книги'
 contact_ru = '/контактные_данные'
 location_ru = '/местоположение'
 
@@ -20,5 +20,4 @@ buttons = [
 ]
 
 # Create the ReplyKeyboardMarkup object with russian buttons and options
-kb_client = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True,
-                                 row_width=2).add(*buttons)
+kb_client = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True, row_width=2).add(*buttons)

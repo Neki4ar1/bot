@@ -13,6 +13,8 @@ from aiogram import types
 from ..models import Word
 from asgiref.sync import sync_to_async
 
+TO_CANCEL = 'добавить_книгу добавить_слово все_слова все_книги /контактные_данные /местоположение'
+
 
 @sync_to_async
 def create_word(word, translate) -> None:
@@ -43,6 +45,11 @@ async def cancel_add(message: types.Message, state: FSMword) -> None:
 
 async def add_word(message: types.Message, state: FSMword) -> None:
     """Функция для добавления нового слова в базу данных"""
+    if message.text in TO_CANCEL:
+        await message.reply('Ошибка. Вы отправили новую команду.')
+        await cancel_add(message, state)
+        return
+
     async with state.proxy() as data:
         data['word'] = message.text
     await FSMword.next()
