@@ -20,6 +20,14 @@ async def command_start(message: types.Message) -> None:
           "известен своим методом диалога и помогает людям мыслить логически и критически. " \
           "Моя задача - помогать вам изучать иностранные языки.</i>"
     await bot.send_message(message.from_user.id, txt, reply_markup=kb_client, parse_mode='HTML')
+    info = "Описание функций бота:\n" \
+           "\n - <b>Добавить</b> слово и его перевод.\n" \
+           "\n - <b>Добавить</b> книгу и ссылку на неё.\n" \
+           "\n - <b>Вывести</b> все слова и переводы.\n" \
+           "\n - <b>Вывести</b> все книги и ссылки.\n" \
+           "\n - Любое добавление можно отменить, написав <b>отмена</b>\n"
+    await bot.send_message(message.from_user.id, info, reply_markup=kb_client, parse_mode='HTML')
+
 
 
 def register_handlers_client(dp: Dispatcher) -> None:

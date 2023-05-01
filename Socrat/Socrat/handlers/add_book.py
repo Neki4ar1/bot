@@ -26,7 +26,7 @@ class FSMbook(StatesGroup):
 async def book_add_start(message: types.Message) -> None:
     """Функция для начала процесса добавления новой книги"""
     await FSMbook.name.set()
-    await message.reply('Введите название книги, для отмены напишите "отмена".')
+    await message.reply('Введите название книги. \nДля отмены напишите <b>"отмена"</b>.', parse_mode='HTML')
 
 
 async def cancel_add_book(message: types.Message, state: FSMbook) -> None:
@@ -44,7 +44,7 @@ async def add_book_name(message: types.Message, state: FSMbook) -> None:
         data['name'] = message.text
 
     await FSMbook.next()
-    await message.reply('Введите URL книги, для отмены напишите "отмена".')
+    await message.reply('Введите URL книги. \nДля отмены напишите "отмена".', parse_mode='HTML')
 
 
 async def add_book_url(message: types.Message, state: FSMbook) -> None:

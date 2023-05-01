@@ -29,7 +29,7 @@ class FSMword(StatesGroup):
 async def add_start(message: types.Message) -> None:
     """Функция для начала процесса добавления нового слова"""
     await FSMword.word.set()
-    await message.reply('Введите новое слово, для отмены напишите "отмена".')
+    await message.reply('Введите новое слово. \nДля отмены напишите <b>"отмена"</b>.', parse_mode='HTML')
 
 
 async def cancel_add(message: types.Message, state: FSMword) -> None:
@@ -46,7 +46,7 @@ async def add_word(message: types.Message, state: FSMword) -> None:
     async with state.proxy() as data:
         data['word'] = message.text
     await FSMword.next()
-    await message.reply('Введите перевод этого слова, для отмены напишите "отмена".')
+    await message.reply('Введите перевод этого слова. \nДля отмены напишите <b>"отмена"</b>.', parse_mode='HTML')
 
 
 async def add_translation(message: types.Message, state: FSMContext) -> None:
