@@ -1,17 +1,24 @@
+"""This code is using the aiogram library to create a custom keyboard for a Telegram bot"""
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
-button_add_translate = KeyboardButton('/add_word')
-button_add_book = KeyboardButton('/add_book')
-button_get_words = KeyboardButton('/send_words')
-button_get_books = KeyboardButton('/send_books')
-button4 = KeyboardButton('/contact', request_contact=True)
-button5 = KeyboardButton('/location', request_location=True)
+# Define the russian names for each command
+add_word_ru = '/добавить_слово'
+add_book_ru = '/добавить_книгу'
+send_words_ru = '/все_слова'
+send_books_ru = '/все_книги'
+contact_ru = '/контактные_данные'
+location_ru = '/местоположение'
 
-kb_client = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-# one_time_keyboard = True Прятать клавиатуру после нажатия.
+# Create a list of KeyboardButton objects with the russian names for each command
+buttons = [
+    KeyboardButton(add_word_ru),
+    KeyboardButton(add_book_ru),
+    KeyboardButton(send_words_ru),
+    KeyboardButton(send_books_ru),
+    KeyboardButton(contact_ru, request_contact=True),
+    KeyboardButton(location_ru, request_location=True),
+]
 
-kb_client.row(button_add_translate, button_get_words)
-kb_client.row(button_add_book, button_get_books)
-kb_client.row(button4, button5)  # каждое добавление с новой строки
-# insert - добавляет если есть место
-# row(a, b, c) - добавление всего в одну строку
+# Create the ReplyKeyboardMarkup object with russian buttons and options
+kb_client = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True,
+                                 row_width=2).add(*buttons)
