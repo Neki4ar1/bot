@@ -13,15 +13,16 @@ TO_CANCEL = 'добавить_книгу добавить_слово все_сл
 
 
 @sync_to_async
-def create_book(name, url) -> None:
+def create_book(name, url, user_id) -> None:
     """Создать новый объект класса Book с заданным именем и URL"""
-    Book.objects.create(name=name, url=url)
+    Book.objects.create(name=name, url=url, user_id=user_id)
 
 
 class FSMbook(StatesGroup):
     """Определяет состояния для машины состояний, используемой для добавления новой книги"""
     name = State()
     url = State()
+    user_id = State()
 
 
 async def book_add_start(message: types.Message) -> None:
@@ -47,6 +48,7 @@ async def add_book_name(message: types.Message, state: FSMbook) -> None:
         return
     async with state.proxy() as data:
         data['name'] = message.text
+        data['user_id'] = message.from_user.id
 
     await FSMbook.next()
     await message.reply('Введите URL книги. \nДля отмены напишите "отмена".', parse_mode='HTML')
@@ -58,7 +60,7 @@ async def add_book_url(message: types.Message, state: FSMbook) -> None:
         data['url'] = message.text
 
     async with state.proxy() as data:
-        await create_book(data['name'], data['url'])
+        await create_book(data['name'], data['url'], data['user_id'])
         await message.answer(text='Книга добавлена!')
     await state.finish()
 

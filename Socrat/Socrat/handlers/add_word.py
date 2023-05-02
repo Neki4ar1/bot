@@ -17,15 +17,16 @@ TO_CANCEL = 'добавить_книгу добавить_слово все_сл
 
 
 @sync_to_async
-def create_word(word, translate) -> None:
+def create_word(word, translate, user_id) -> None:
     """Создать новый объект класса Word с заданным словом и его переводом"""
-    Word.objects.create(word=word, translate=translate)
+    Word.objects.create(word=word, translate=translate, user_id=user_id)
 
 
 class FSMword(StatesGroup):
     """Определяет состояния для машины состояний, используемой для добавления нового слова"""
     word = State()
     translate = State()
+    user_id = State()
 
 
 async def add_start(message: types.Message) -> None:
@@ -52,6 +53,7 @@ async def add_word(message: types.Message, state: FSMword) -> None:
 
     async with state.proxy() as data:
         data['word'] = message.text
+        data['user_id'] = message.from_user.id
     await FSMword.next()
     await message.reply('Введите перевод этого слова. \nДля отмены напишите <b>"отмена"</b>.', parse_mode='HTML')
 
@@ -62,7 +64,7 @@ async def add_translation(message: types.Message, state: FSMContext) -> None:
         data['translate'] = message.text
 
     async with state.proxy() as data:
-        await create_word(data['word'], data['translate'])
+        await create_word(data['word'], data['translate'], data['user_id'])
         await message.answer(text='Перевод добавлен!')
     await state.finish()
 
